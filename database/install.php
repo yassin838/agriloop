@@ -22,7 +22,7 @@ try {
 
     $pdo->exec($sql);
     echo "Base agriloop installee avec succes.\n";
-    echo "Table: utilisateur.\n";
+    echo "Tables: association, utilisateur, don.\n";
 } catch (Throwable $exception) {
     fwrite(STDERR, 'Erreur: ' . $exception->getMessage() . PHP_EOL);
     exit(1);

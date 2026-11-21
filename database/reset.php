@@ -52,8 +52,8 @@ try {
     foreach ($accounts as $role => $account) {
         $userStmt = $pdo->prepare(
             'INSERT INTO utilisateur
-             (nom, prenom, email, mot_de_passe, telephone, ville, role)
-             VALUES (:nom, :prenom, :email, :mot_de_passe, :telephone, :ville, :role)'
+             (nom, prenom, email, mot_de_passe, telephone, ville, role, actif)
+             VALUES (:nom, :prenom, :email, :mot_de_passe, :telephone, :ville, :role, 1)'
         );
         $userStmt->execute([
             'nom' => $account[0],
@@ -67,7 +67,8 @@ try {
     }
 
     echo "Base '{$safeName}' recreee avec succes.\n";
-    echo "Table : utilisateur.\n";
+    echo "Tables : association, utilisateur, don.\n";
+    echo "Aucune ligne dans don ; donnees de reference minimales dans association.\n";
 } catch (Throwable $exception) {
     fwrite(STDERR, 'Erreur: ' . $exception->getMessage() . PHP_EOL);
     exit(1);

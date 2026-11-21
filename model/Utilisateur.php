@@ -53,4 +53,121 @@ final class Utilisateur
         return (int) $this->pdo->lastInsertId();
     }
 
+    public function findAll(): array
+    {
+        $stmt = $this->pdo->query(
+            'SELECT id, nom, prenom, email, telephone, ville, role, actif, created_at, updated_at
+             FROM utilisateur
+             ORDER BY id ASC'
+        );
+        return $stmt->fetchAll();
+    }
+
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT id, nom, prenom, email, telephone, ville, role, actif, created_at, updated_at
+             FROM utilisateur
+             WHERE id = :id'
+        );
+        $stmt->execute(['id' => $id]);
+        $result = $stmt->fetch();
+        return $result ?: null;
+    }
+
+    public function emailExistsExcept(int $id, string $email): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT 1 FROM utilisateur
+             WHERE email = :email AND id <> :id
+             LIMIT 1'
+        );
+        $stmt->execute([
+            'email' => strtolower(trim($email)),
+            'id' => $id,
+        ]);
+        return (bool) $stmt->fetchColumn();
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $sql = 'UPDATE utilisateur
+                SET nom = :nom,
+                    prenom = :prenom,
+                    email = :email,
+                    telephone = :telephone,
+                    ville = :ville,
+                    role = :role';
+        $params = [
+            'id' => $id,
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'email' => strtolower(trim($data['email'])),
+            'telephone' => $data['telephone'],
+            'ville' => $data['ville'],
+            'role' => $data['role'],
+        ];
+
+        if (!empty($data['mot_de_passe'])) {
+            $sql .= ', mot_de_passe = :mot_de_passe';
+            $params['mot_de_passe'] = password_hash((string) $data['mot_de_passe'], PASSWORD_DEFAULT);
+        }
+
+        $sql .= ' WHERE id = :id';
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM utilisateur WHERE id = :id');
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public function countAdministrateurs(): int
+    {
+        $stmt = $this->pdo->query(
+            "SELECT COUNT(*) FROM utilisateur WHERE role = 'administrateur'"
+        );
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function setActive(int $id, bool $active): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'UPDATE utilisateur SET actif = :actif WHERE id = :id'
+        );
+        return $stmt->execute([
+            'actif' => $active ? 1 : 0,
+            'id' => $id,
+        ]);
+    }
+
+    public function updateProfile(int $id, array $data): bool
+    {
+        $sql = 'UPDATE utilisateur
+                SET nom = :nom,
+                    prenom = :prenom,
+                    email = :email,
+                    telephone = :telephone,
+                    ville = :ville';
+        $params = [
+            'id' => $id,
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'email' => strtolower(trim($data['email'])),
+            'telephone' => $data['telephone'],
+            'ville' => $data['ville'],
+        ];
+
+        if (!empty($data['mot_de_passe'])) {
+            $sql .= ', mot_de_passe = :mot_de_passe';
+            $params['mot_de_passe'] = password_hash((string) $data['mot_de_passe'], PASSWORD_DEFAULT);
+        }
+
+        $sql .= ' WHERE id = :id';
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($params);
+    }
+
 }

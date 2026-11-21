@@ -1,0 +1,190 @@
+AGRILOOP - GUIDE POUR LES MEMBRES DE L'EQUIPE
+
+1. AVANT DE COMMENCER
+
+Chaque membre doit avoir :
+- XAMPP installe ;
+- PHP dans C:\xampp\php ;
+- Apache et MySQL demarres ;
+- Git installe ;
+- GitHub Desktop ou Git ;
+- le depot agriloop clone dans C:\xampp\htdocs.
+
+Ne commencez pas directement sur main.
+Chaque membre cree sa propre branche depuis main.
+
+2. SOCL COMMUN DEJA IMPLEMENTE
+
+Yassine Amri a prepare le socle commun suivant :
+- template FreshCart ;
+- fond GettyImages-2228011090 ;
+- connexion PDO ;
+- table utilisateur ;
+- inscription ;
+- connexion ;
+- deconnexion ;
+- roles agriculteur, acheteur et administrateur ;
+- controle d'acces du back-office ;
+- formulaire Association ;
+- formulaire Don ;
+- structure MVC pour les modules Dons et Associations.
+
+Ne supprimez pas ces fichiers communs :
+- config\Database.php
+- database\agriloop.sql
+- database\reset.php
+- model\Utilisateur.php
+- controller\UtilisateurController.php
+- views\frontoffice\freshcart-template.css
+- views\frontoffice\login.php
+- views\frontoffice\register.php
+- views\frontoffice\logout.php
+
+Une modification de ces fichiers doit etre annoncee a toute l'equipe.
+
+3. RESPONSABILITES INDIVIDUELLES
+
+Ilyes Mami - module Offres
+- model\Categorie.php
+- model\Offre.php
+- controller\CategorieController.php
+- controller\OffreController.php
+- vues front-office et back-office des categories/offres
+- branche : ilyes-mami-offres
+
+Amri Med Yassine - module Dons et Associations
+- model\Association.php
+- model\Don.php
+- controller\AssociationController.php
+- controller\DonController.php
+- formulaires Association et Don
+- back-office Associations et Dons
+- branche : med-yassine-amri-dons-associations
+
+Belhoula Firas - module Avis et Signalements
+- model\Avis.php
+- model\Signalement.php
+- controller\AvisController.php
+- controller\SignalementController.php
+- formulaires Avis et Signalement
+- branche : belhoula-firas-avis-signalements
+
+Aziz Sassi - module Parcelles et Eau
+- model\Parcelle.php
+- model\ConsommationEau.php
+- controller\ParcelleController.php
+- controller\ConsommationEauController.php
+- formulaires Parcelle et ConsommationEau
+- branche : aziz-sassi-parcelles-eau
+
+4. AVANT CHAQUE MODIFICATION
+
+Dans GitHub Desktop :
+1. Selectionnez main.
+2. Faites Fetch origin.
+3. Faites Pull origin.
+4. Selectionnez votre branche, ou creez-la depuis main.
+5. Faites vos modifications uniquement dans votre module.
+
+Dans Git en ligne de commande :
+
+git switch main
+git pull origin main
+git switch -c NOM-ET-NOMDUMODULE
+
+Exemple :
+
+git switch -c ilyes-mami-offres
+
+5. APRES CHAQUE MODIFICATION
+
+- testez les pages avec XAMPP ;
+- executez php -l sur chaque fichier PHP modifie ;
+- testez les formulaires avec des donnees valides ;
+- testez les formulaires avec des donnees invalides ;
+- verifiez que les redirections et sessions fonctionnent ;
+- consultez git status ;
+- faites un commit avec un message precis ;
+- poussez la branche.
+
+Commandes :
+
+C:\xampp\php\php.exe -l model\VotreModele.php
+git status
+git diff
+git add .
+git commit -m "Ajout du CRUD VotreModule"
+git push -u origin NOM-ET-NOMDUMODULE
+
+6. CE QU'IL FAUT ENVOYER AUX MEMBRES
+
+Envoyez :
+- le lien GitHub du depot ;
+- un invite collaborateur ;
+- le lien vers la branche main ;
+- ce fichier GUIDE_EQUIPE_AGRILOOP.txt ;
+- README.md ;
+- les identifiants de demonstration ;
+- les instructions XAMPP ;
+- le nom exact de votre branche individuelle.
+
+Ne transmettez pas seulement un dossier ZIP : un depot Git permet
+au groupe de suivre les modifications et d'effectuer les merges.
+
+7. CE QUE CHAQUE MEMBRE DOIT RECOPIER
+
+Chacun doit creer sa branche depuis main :
+
+Ilyes :
+ilyes-mami-offres
+
+Yassine :
+med-yassine-amri-dons-associations
+
+Firas :
+belhoula-firas-avis-signalements
+
+Aziz :
+aziz-sassi-parcelles-eau
+
+8. INTEGRATION EN GROUPE
+
+Ne mergez pas directement sur main depuis votre ordinateur.
+Creer une Pull Request vers main.
+Une personne verifie :
+- PHP syntaxe ;
+- tables SQL ;
+- liens vers le CSS ;
+- formulaires ;
+- droits d'acces ;
+- absence de fichier offert par un autre membre ;
+- absence de modification involontaire du socle commun.
+
+Apres validation, main recoit seulement l'application integree.
+
+9. BASE DE DONNEES
+
+Chaque membre doit ajouter uniquement ses propres tables au
+database\agriloop.sql. Ne recreez pas completement la base de son voisin.
+
+Avant une modification SQL :
+- annoncez les nouveaux noms de table ;
+- annoncez les noms de colonnes ;
+- indiquez les cles etrangères ;
+- ajoutez des valeurs de demonstration ;
+- testez database\reset.php.
+
+10. RESULTAT ATTENDU POUR CHAQUE MODULE
+
+Chaque membre doit fournir :
+- au moins un CRUD complet ;
+- deux formulaires front-office ou selon le module ;
+- une page back-office si demandee ;
+- des controles HTML ;
+- des validations PHP ;
+- des requetes PDO preparees ;
+- des messages d'erreur ;
+- des tests manuels ;
+- plusieurs commits Git ;
+- une branche distincte ;
+- une courte demonstration.

@@ -1,24 +1,129 @@
-AGRILOOP - SOCLE COMMUN
+AGRILOOP - CREER ET VERIFIER UNE BASE FRESH
 
-Demarrer Apache et MySQL dans XAMPP.
+1. DEMARRER MYSQL
 
-Installer la base :
+Dans XAMPP Control Panel :
+- demarrez Apache ;
+- demarrez MySQL ;
+- les deux modules doivent etre verts.
+
+2. REINITIALISER LA BASE
+
+PowerShell :
 
 cd C:\xampp\htdocs\agriloop
 C:\xampp\php\php.exe database\reset.php
 
-main cree uniquement la table utilisateur.
-Association et Don appartiennent a la branche
-med-yassine-amri-dons-associations.
+Tapez exactement :
+RESET
 
-PDO :
-host=127.0.0.1
-port=3306
-base=agriloop
-utilisateur=root
-mot de passe=
+Cette commande supprime uniquement la base "agriloop", puis la recree.
+Elle ne supprime pas les bases futurix, yassine ou les autres projets.
 
-Comptes communs :
-acheteur@agriloop.tn / Acheteur123!
-agriculteur@agriloop.tn / Farmer123!
-admin.agriloop@agriloop.tn / AgriloopAdmin2026!
+3. RESULTAT ATTENDU
+
+Base creee : agriloop
+Tables creees :
+- association
+- utilisateur
+- don
+
+La table don est vide.
+La table association contient uniquement des donnees de reference minimales.
+La table don est vide jusqu'a la premiere saisie.
+
+4. TESTER LA CONNEXION PHP
+
+URL :
+http://localhost/agriloop/views/database-test.php
+
+Le diagnostic doit afficher :
+- Connexion MySQL reussie
+- base : agriloop
+- tables : association, utilisateur, don
+
+Si une erreur apparait, verifiez :
+- que MySQL tourne dans XAMPP ;
+- que le port est 3306 ;
+- que config\Database.php utilise root sans mot de passe ;
+- que la base agriloop a ete creee.
+
+5. VERIFIER AVEC PHPMYADMIN
+
+URL :
+http://localhost/phpmyadmin
+
+- choisissez agriloop ;
+- ouvrez association ;
+- ouvrez don ;
+- verifiez que don est vide apres une base fresh.
+
+6. CONFIGURATION DE CONNEXION
+
+Le fichier central est :
+config\Database.php
+
+Valeurs locales par defaut :
+host = 127.0.0.1
+port = 3306
+base = agriloop
+utilisateur = root
+mot de passe = vide
+
+Pour utiliser une autre base ou un autre utilisateur sur une autre machine,
+positionnez les variables d'environnement suivantes :
+
+$env:AGRILOOP_DB_HOST="127.0.0.1"
+$env:AGRILOOP_DB_PORT="3306"
+$env:AGRILOOP_DB_NAME="agriloop"
+$env:AGRILOOP_DB_USER="root"
+$env:AGRILOOP_DB_PASSWORD=""
+
+Puis executez a nouveau le reset ou testez la page PHP.
+
+7. VERIFICATION MYSQL DIRECTE
+
+C:\xampp\mysql\bin\mysql.exe -uroot -e "SHOW DATABASES;"
+C:\xampp\mysql\bin\mysql.exe -uroot -e "USE agriloop; SHOW TABLES;"
+C:\xampp\mysql\bin\mysql.exe -uroot -e "USE agriloop; SELECT COUNT(*) FROM don;"
+
+Jointure attendue une fois des dons crees :
+
+SELECT d.id,d.quantite,d.statut,a.nom AS association
+FROM don d
+INNER JOIN association a ON a.id=d.id_association;
+
+MODELE UTILISATEUR
+
+La table utilisateur contient directement une colonne role.
+Les valeurs autorisees sont :
+- agriculteur
+- acheteur
+- administrateur
+
+Il n'existe pas de table role separee.
+
+Structure principale :
+
+DESCRIBE utilisateur;
+SELECT id, nom, prenom, email, role FROM utilisateur;
+
+COMPTES DE DEMONSTRATION
+
+Apres execution de database/reset.php :
+
+Acheteur :
+email : acheteur@agriloop.tn
+mot de passe : Acheteur123!
+
+Agriculteur :
+email : agriculteur@agriloop.tn
+mot de passe : Farmer123!
+
+Administrateur :
+email : admin.agriloop@agriloop.tn
+mot de passe : AgriloopAdmin2026!
+
+Le compte acheteur peut envoyer une demande d'association.
+Le compte agriculteur ne peut pas envoyer une demande d'association.
+Seul le compte administrateur peut ouvrir les pages du back-office.

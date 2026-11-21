@@ -1,0 +1,479 @@
+AGRILOOP - ANALYSE DU PROJET ET PLAN DE TRAVAIL
+Equipe : Ilyes Mami, Amri Med Yassine, Belhoula Firas, Aziz Sassi
+Date de l'analyse : 21/11/2026
+
+======================================================================
+1. OBJECTIF DU DOCUMENT
+======================================================================
+
+Ce document explique l'etat actuel du projet AgriLoop, le resultat attendu,
+la repartition du travail entre les quatre membres et l'ordre dans lequel
+nous allons programmer.
+
+Il sert de reference commune avant toute implementation PHP ou base de
+donnees. Nous devons le relire ensemble et valider les choix fonctionnels
+avant de commencer les developpements.
+
+AgriLoop est une plateforme web de mise en relation autour des surplus
+agricoles et de l'economie solidaire :
+- un producteur peut publier une offre de surplus ;
+- une association peut s'enregistrer et proposer ou recevoir un don ;
+- les utilisateurs peuvent laisser un avis et signaler un avis ;
+- un producteur peut gerer ses parcelles et sa consommation d'eau ;
+- un espace back-office permet a l'administrateur de suivre les donnees.
+
+======================================================================
+2. SOURCES ANALYSEES
+======================================================================
+
+Sources applicatives presentes dans C:\xampp\htdocs\agriloop :
+
+- views/frontoffice/association.html
+  Formulaire statique d'enregistrement d'une association.
+- views/frontoffice/don.html
+  Formulaire statique de proposition d'un don.
+- views/frontoffice/template.html
+  Gabarit de navigation et formulaire a reutiliser pour les prochaines pages.
+- views/frontoffice/styles.css
+  Feuille de style externe commune, responsive, avec la charte verte et or.
+- views/backoffice/dons.html
+  Maquette statique de gestion des dons avec statistiques et tableau.
+- controller/
+  Dossier present mais sans controleur implemente.
+- model/
+  Dossier present mais sans modele implemente.
+- logs/
+  Dossier present mais sans fonctionnalite applicative identifiee.
+- views/assets/
+  Dossier present, sans asset necessaire identifie dans l'inventaire actuel.
+
+Documents fournis dans Downloads et pris en compte pour le cadrage :
+
+- AgriLoop_Diagramme_de_classes_v3.pptx
+- AgriLoop_Diagramme_de_classes (2).pptx
+- Chapitre 1 HTML5 (2).pdf
+- CSS3-Chapitre 1 (1).pptx
+- Chapitre3_CSS3 Flexbox & Grid (1).pdf
+- Chapitre 4 php - partie 1.pdf
+- Chapitre 5 _PHP Avance & Programmation Oriente Objet (POO).pdf
+- Chapitre 6 -PHP PDO - CRUD.pdf
+- Presentation du module PW 2A- 2627 (1).pdf
+- Fiche_Module_Projet_Technologies_Web_2026-2027.pdf
+
+Les chapitres HTML/CSS/PHP servent de reference pedagogique pour respecter
+la separation HTML/CSS, la mise en page responsive, la POO PHP, PDO et le
+CRUD. Les deux diagrammes AgriLoop servent de reference fonctionnelle et
+de modele de donnees.
+
+======================================================================
+3. DIAGNOSTIC DE L'ETAT ACTUEL
+======================================================================
+
+Le projet est actuellement une maquette front-end, pas encore une
+application dynamique.
+
+Ce qui fonctionne deja visuellement :
+- la charte graphique AgriLoop est coherente sur les pages front-office ;
+- les formulaires ont des labels, des champs obligatoires et un affichage
+  responsive ;
+- la page des dons du back-office contient une navigation, des statistiques,
+  un filtre visuel et un tableau d'exemple ;
+- la navigation contient deja les concepts principaux : Accueil, Offres,
+  Dons, Parcelles, Avis et Back-office.
+
+Ce qui n'est pas encore implemente :
+- aucun fichier PHP applicatif dans le projet ;
+- aucun controleur ni modele dans les dossiers correspondants ;
+- aucune connexion a MySQL dans le projet ;
+- aucune base ou script SQL AgriLoop ;
+- les formulaires utilisent action="#" et ne sauvegardent rien ;
+- les listes deroulantes contiennent des valeurs statiques ;
+- les statistiques et les lignes du tableau sont des donnees fictives ;
+- aucun CRUD, aucune validation serveur, aucune session, aucune authentification ;
+- aucune page complete pour les modules Offres, Utilisateurs, Avis,
+  Signalement, Parcelles et ConsommationEau.
+
+Attention :
+Le fichier de configuration fourni dans Downloads utilise la base
+"travel". Il ne doit pas etre branche tel quel sur AgriLoop. Il faudra
+creer une configuration dediee, sans exposer de mot de passe dans le code
+public, et utiliser une base nommee par exemple "agriloop".
+
+======================================================================
+4. MODELE FONCTIONNEL DU DIAGRAMME DE CLASSES
+======================================================================
+
+Module commun :
+
+Role
+- id
+- libelle
+- description
+
+Utilisateur
+- id
+- nom
+- prenom
+- email
+- motDePasse
+- telephone
+- ville
+- idRole
+
+Un role peut etre attribue a plusieurs utilisateurs. Un utilisateur
+possede un seul role dans la version actuelle du diagramme.
+
+Module Offres - responsable : Ilyes Mami
+
+Categorie
+- id
+- nom
+- description
+- image
+- statut
+
+Offre
+- id
+- titre
+- description
+- quantite
+- prixParKg
+- dateLimite
+- lieuRetrait
+- statut
+- idCategorie
+- idProducteur
+
+Une categorie contient plusieurs offres. Une offre est publiee par un
+utilisateur producteur.
+
+Module Dons - responsable : Amri Med Yassine
+
+Association
+- id
+- nom
+- domaine
+- ville
+- telephone
+- email
+- responsable
+- statut
+
+Don
+- id
+- quantite
+- dateRetrait
+- remarque
+- statut
+- idAssociation
+- idOffre
+
+Une association peut recevoir plusieurs dons. Un don concerne une offre.
+Les formulaires deja maquettes sont :
+- Enregistrer une association ;
+- Proposer un don.
+
+Module Avis - responsable : Belhoula Firas
+
+Avis
+- id
+- titre
+- note
+- fraicheur
+- commentaire
+- date
+- statut
+- idOffre
+- idAuteur
+
+Signalement
+- id
+- motif
+- description
+- auteur
+- date
+- statut
+- idAvis
+
+Un utilisateur redige des avis sur les offres. Un avis peut recevoir des
+signalements qui devront etre traites par l'administration.
+
+Module Parcelles et eau - responsable : Aziz Sassi
+
+Parcelle
+- id
+- nom
+- culture
+- superficie
+- localisation
+- modeIrrigation
+- idProducteur
+
+ConsommationEau
+- id
+- date
+- volume
+- remarque
+- idParcelle
+
+Un utilisateur producteur possede plusieurs parcelles. Une parcelle
+enregistre plusieurs consommations d'eau.
+
+======================================================================
+5. REPARTITION DES TACHES
+======================================================================
+
+5.1. ILYES MAMI - MODULE OFFRES
+
+Responsabilites :
+- creer les tables et le CRUD des categories ;
+- creer les tables et le CRUD des offres ;
+- creer les formulaires de creation et modification ;
+- afficher les offres disponibles et leurs details ;
+- gerer la quantite, le prix, la date limite, le lieu et le statut ;
+- fournir au module Dons la liste des offres actives ;
+- tester les relations Offre-Categorie-Utilisateur.
+
+Livrables attendus :
+- model/Categorie.php
+- model/Offre.php
+- controllers associes
+- vues categories et offres
+- requetes PDO preparees
+- tests CRUD et validations.
+
+5.2. AMRI MED YASSINE - MODULE DONS (RESPONSABLE DU MODULE)
+
+Responsabilites :
+- creer le CRUD des associations ;
+- creer le CRUD des dons ;
+- rendre dynamiques association.html et don.html ;
+- charger les associations et les offres depuis la base ;
+- valider quantite et date de retrait ;
+- gerer les statuts du don : en attente, confirme, annule ;
+- alimenter le tableau et les statistiques du back-office ;
+- gerer les actions de confirmation et d'annulation ;
+- verifier les relations Don-Association-Offre.
+
+Livrables attendus :
+- model/Association.php
+- model/Don.php
+- controllers associes
+- vues front-office d'association et de don ;
+- vue back-office des dons reliee a la base ;
+- messages de succes et d'erreur ;
+- tests de creation, modification, suppression et changement de statut.
+
+Dependances :
+- les offres actives d'Ilyes sont necessaires pour proposer un don ;
+- la structure de connexion commune doit etre definie avant le CRUD ;
+- le back-office depend des donnees reelles du module Dons.
+
+5.3. BELHOULA FIRAS - MODULE AVIS ET SIGNALEMENTS
+
+Responsabilites :
+- creer le CRUD des avis ;
+- creer le CRUD des signalements ;
+- permettre la selection d'une offre et d'un avis ;
+- valider la note, la fraicheur, le titre et le commentaire ;
+- gerer les statuts de moderation ;
+- ajouter les listes et actions de moderation au back-office ;
+- tester les liens utilisateur-offre-avis-signalement.
+
+Livrables attendus :
+- model/Avis.php
+- model/Signalement.php
+- controllers et vues front-office ;
+- vues de moderation ;
+- validation et messages utilisateur ;
+- tests de creation et de moderation.
+
+Dependances :
+- les utilisateurs et les offres doivent exister ;
+- le module Offres doit fournir les offres selectionnables.
+
+5.4. AZIZ SASSI - MODULE PARCELLES ET CONSOMMATION D'EAU
+
+Responsabilites :
+- creer le CRUD des parcelles ;
+- creer le CRUD des consommations d'eau ;
+- creer les formulaires Ajouter une parcelle et Saisir une consommation ;
+- controler superficie, volume, date et mode d'irrigation ;
+- afficher les parcelles d'un producteur ;
+- afficher l'historique de consommation par parcelle ;
+- tester les relations Utilisateur-Parcelle-ConsommationEau.
+
+Livrables attendus :
+- model/Parcelle.php
+- model/ConsommationEau.php
+- controllers et vues front-office ;
+- affichage de l'historique ;
+- tests des contraintes et du CRUD.
+
+Dependances :
+- le module Utilisateur doit exister ;
+- un producteur connecte est necessaire pour associer une parcelle.
+
+======================================================================
+6. TRAVAIL COMMUN OBLIGATOIRE
+======================================================================
+
+Avant le developpement de chaque module, l'equipe doit valider :
+
+1. La base de donnees et les noms exacts des tables et colonnes.
+2. Les statuts autorises et leurs valeurs.
+3. Les roles et les droits de chaque utilisateur.
+4. Les pages qui sont accessibles sans connexion.
+5. Les pages reservees a l'administrateur.
+6. Le format des messages d'erreur et de succes.
+7. La convention de nommage PHP, HTML, SQL et des fichiers.
+8. La strategie de fusion des fichiers lorsque plusieurs personnes
+   travaillent sur les memes vues ou le meme CSS.
+
+Architecture recommandee :
+
+- config/
+  Connexion PDO et constantes de configuration.
+- model/
+  Classes metier et operations CRUD avec requetes preparees.
+- controller/
+  Reception des requetes, validation, appel des modeles et redirection.
+- views/
+  Formulaires, listes, details et messages.
+- public/assets/ ou views/assets/
+  CSS, images et scripts necessaires.
+
+Le code doit respecter le principe :
+formulaire -> controleur -> validation -> modele PDO -> base de donnees
+-> redirection ou affichage d'un message.
+
+======================================================================
+7. ORDRE DE REALISATION
+======================================================================
+
+PHASE 0 - VALIDATION DE L'EQUIPE
+- confirmer le modele de classes ;
+- confirmer les champs obligatoires ;
+- confirmer les roles ;
+- confirmer les statuts ;
+- choisir la methode de travail et les conventions de fichiers.
+
+PHASE 1 - SOCLE TECHNIQUE COMMUN
+- creer la base agriloop ;
+- ecrire le script SQL initial ;
+- creer la connexion PDO dediee ;
+- creer les classes ou helpers communs ;
+- preparer la validation serveur ;
+- preparer les messages et la structure des routes.
+
+PHASE 2 - UTILISATEURS ET ROLES
+- creer les tables Role et Utilisateur ;
+- ajouter inscription et connexion ;
+- proteger les pages necessitant une session ;
+- definir les droits producteur, association et administrateur.
+
+PHASE 3 - MODULES METIER EN PARALLELE
+- Ilyes : categories et offres ;
+- Yassine : associations et dons ;
+- Firas : avis et signalements ;
+- Aziz : parcelles et eau.
+
+Yassine peut commencer la maquette des associations en parallele, mais le
+chargement dynamique des offres devra attendre la table Offre et quelques
+donnees de test d'Ilyes.
+
+PHASE 4 - INTEGRATION
+- relier les modules entre eux ;
+- remplacer toutes les donnees fictives ;
+- relier les menus aux vraies pages ;
+- alimenter le tableau de bord ;
+- uniformiser le CSS et les messages ;
+- verifier les liens et les redirections.
+
+PHASE 5 - TESTS ET RECETTE
+- tester chaque CRUD ;
+- tester les validations navigateur et serveur ;
+- tester les erreurs de donnees inexistantes ;
+- tester les droits d'acces ;
+- tester les relations et suppressions ;
+- tester l'affichage mobile ;
+- tester les formulaires avec donnees valides et invalides ;
+- preparer une demonstration complete.
+
+======================================================================
+8. PREMIERE VERSION MINIMALE A LIVRER
+======================================================================
+
+La version minimale doit permettre :
+
+- de creer un utilisateur et de se connecter ;
+- a un producteur de creer et gerer une offre ;
+- a une association de s'enregistrer ;
+- de proposer un don lie a une offre ;
+- a l'administrateur de consulter et modifier le statut des dons ;
+- a un utilisateur de laisser un avis ;
+- de signaler un avis ;
+- a un producteur d'ajouter une parcelle et une consommation d'eau ;
+- de realiser les CRUD principaux avec PDO et validations serveur.
+
+Les fonctions secondaires, comme les statistiques avancees, les uploads
+d'images, les notifications ou une recherche complexe, seront ajoutees
+seulement apres validation de cette version minimale.
+
+======================================================================
+9. RISQUES ET POINTS A CORRIGER
+======================================================================
+
+- Les pages actuelles sont statiques : une migration progressive vers PHP
+  est necessaire sans casser la charte CSS.
+- Les liens en # ne correspondent pas encore a de vraies pages.
+- Les formulaires n'ont pas de traitement serveur.
+- Le fichier de configuration fourni utilise une base "travel" et doit
+  rester un exemple, pas une configuration de production AgriLoop.
+- Les champs du diagramme doivent etre harmonises avant le SQL, notamment
+  les accents dans les noms de champs, la distinction nom/prenom et les
+  roles des utilisateurs.
+- La suppression de donnees liees doit etre decidee : blocage si une
+  relation existe ou suppression en cascade.
+- Les mots de passe devront etre hashes avec password_hash et verifies
+  avec password_verify.
+- Toutes les requetes SQL devront utiliser des parametres PDO.
+- Les statistiques du back-office devront etre calculees depuis la base,
+  et non rester des nombres ecrits dans le HTML.
+
+======================================================================
+10. DECISIONS A PRENDRE AVANT DE PROGRAMMER
+======================================================================
+
+- Nom definitif de la base MySQL.
+- Version de PHP et version de MySQL utilisees dans XAMPP.
+- Methode de routage : pages PHP directes ou controleur frontal.
+- Liste definitive des roles.
+- Liste definitive des statuts.
+- Politique de suppression et d'archivage.
+- Format des dates et des nombres.
+- Gestion des images de categories et d'offres.
+- Donnees de demonstration a inserer.
+- Regles de fusion et de validation du code de chaque membre.
+
+======================================================================
+11. CONCLUSION
+======================================================================
+
+Nous ne devons pas commencer par ajouter des requetes directement dans les
+fichiers HTML. La prochaine etape est de valider le socle commun et le
+modele de donnees. Ensuite chaque membre developpe son module avec le meme
+cycle : modele, controleur, vue, validation, tests et integration.
+
+Pour Yassine, la priorite est le module Dons :
+1. valider Association et Don ;
+2. preparer le SQL ;
+3. brancher la connexion PDO ;
+4. rendre association.html dynamique ;
+5. rendre don.html dynamique ;
+6. connecter le back-office ;
+7. tester les statuts et les relations.
+
+Le document constitue le plan avant programmation. Toute modification du
+perimetre doit etre ajoutee ici ou validee par toute l'equipe avant d'etre
+codee.

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proposer un don | AgriLoop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="don.html"><span class="brand-mark" aria-hidden="true"></span>AgriLoop</a>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a href="#accueil">Accueil</a>
+        <a href="#offres">Offres</a>
+        <a href="don.html" aria-current="page">Dons</a>
+        <a href="#parcelles">Parcelles</a>
+        <a href="#avis">Avis</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <h1>Proposer un don</h1>
+      <form class="form-grid" action="#" method="post">
+        <div class="field">
+          <label for="association">Association <span aria-hidden="true">*</span></label>
+          <select id="association" name="association" required>
+            <option value="" selected disabled>Choisir...</option>
+            <option value="solidarite-rurale">Solidarité rurale</option>
+            <option value="terre-partagee">Terre partagée</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="offre">Offre <span aria-hidden="true">*</span></label>
+          <select id="offre" name="offre" required>
+            <option value="" selected disabled>Choisir...</option>
+            <option value="paniers-legumes">Paniers de légumes</option>
+            <option value="materiel-agricole">Matériel agricole</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="quantite">Quantité (kg) <span aria-hidden="true">*</span></label>
+          <input id="quantite" name="quantite" type="number" min="1" placeholder="0" required>
+        </div>
+
+        <div class="field">
+          <label for="date-retrait">Date de retrait <span aria-hidden="true">*</span></label>
+          <input id="date-retrait" name="date_retrait" type="date" required>
+        </div>
+
+        <div class="field field-full">
+          <label for="remarque">Remarque</label>
+          <textarea id="remarque" name="remarque" rows="3"></textarea>
+        </div>
+
+        <button type="submit">Envoyer</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

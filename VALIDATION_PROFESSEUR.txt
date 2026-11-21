@@ -1,0 +1,144 @@
+AGRILOOP - CHECKLIST POUR LA VALIDATION
+
+1. ARCHITECTURE MVC
+
+Le projet utilise les dossiers suivants :
+- model : classes metier
+- controller : validations et actions
+- views : front-office et back-office
+- config : configuration PDO
+- database : SQL et outils d'installation
+
+2. CONNEXION
+
+Fichiers de connexion :
+- config.php
+- config\Database.php
+
+Le fichier config.php fournit config::getConnexion().
+Database.php reutilise cette meme connexion.
+PDO utilise des requetes preparees et des exceptions.
+
+3. MODULE AMRI MED YASSINE
+
+Le module concerne :
+- utilisateur commun ;
+- association ;
+- don ;
+- association demandee par un acheteur ;
+- don propose uniquement par un agriculteur ;
+- back-office reserve a l'administrateur.
+
+4. CRUD ASSOCIATION
+
+Operations disponibles :
+- create : formulaire acheteur ;
+- read : liste back-office ;
+- update : formulaire administrateur ;
+- delete : suppression administrateur ;
+- accept : changement du statut en active.
+
+5. CRUD DON
+
+Operations disponibles :
+- create : formulaire agriculteur ;
+- read : liste back-office ;
+- update : formulaire administrateur ;
+- delete : suppression administrateur ;
+- changement de statut : en_attente, confirme, annule.
+
+6. CONTROLES HTML
+
+Les formulaires utilisent :
+- required ;
+- type email ;
+- type tel ;
+- type number ;
+- type date ;
+- min, max et step ;
+- maxlength ;
+- select obligatoires ;
+- pattern telephone ;
+- bouton modifier ;
+- bouton annuler ;
+- bouton envoyer.
+
+7. CONTROLES PHP
+
+Les controleurs verifient :
+- champs obligatoires ;
+- longueurs ;
+- email valide ;
+- email unique ;
+- telephone ;
+- quantite positive ;
+- date valide ;
+- identifiants existence ;
+- statuts autorises ;
+- role autorise ;
+- jeton CSRF ;
+- mot de passe confirme ;
+- mot de passe hash.
+
+8. DROITS D'ACCES
+
+Acheteur :
+- peut enregistrer une association ;
+- ne peut pas proposer un don.
+
+Agriculteur :
+- peut proposer un don ;
+- ne peut pas enregistrer une association.
+
+Administrateur :
+- peut ouvrir le tableau de bord ;
+- peut gerer les associations ;
+- peut accepter les associations ;
+- peut modifier ou supprimer les associations ;
+- peut gerer les dons ;
+- peut confirmer, annuler, modifier ou supprimer les dons.
+
+9. BASE DE DONNEES
+
+Tables Yassine :
+- utilisateur
+- association
+- don
+
+Tables communes :
+- utilisateur
+
+Relations :
+- association.id_user -> utilisateur.id
+- don.id_association -> association.id
+- don.id_user -> utilisateur.id
+
+10. GIT
+
+La branche individuelle est :
+med-yassine-amri-dons-associations
+
+L'ancien nom yassine-amri-dons-associations ne doit pas etre conserve
+comme branche officielle.
+
+Les fichiers communs restent sur main :
+- config.php
+- Database.php
+- Utilisateur
+- template
+- authentification
+
+11. TESTS AVANT VALIDATION
+
+1. php -l sur tous les fichiers PHP.
+2. Reset de la base.
+3. Inscription acheteur.
+4. Connexion acheteur.
+5. Demande association.
+6. Acceptance administrateur.
+7. Inscription agriculteur.
+8. Connexion agriculteur.
+9. Proposition don.
+10. Confirmation/annulation/modification/suppression en back-office.
+11. Verification des tables phpMyAdmin.
+12. Verification des branches Git.

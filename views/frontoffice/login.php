@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-session_start();
+require_once __DIR__ . '/../../config/session.php';
 
 require_once __DIR__ . '/../../controller/UtilisateurController.php';
 
@@ -31,7 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'role' => $result['user']['role'],
             ];
 
-            header('Location: ../../index.php');
+            if ($result['user']['role'] === 'administrateur') {
+                header('Location: ../backoffice/dashboard.php');
+            } else {
+                header('Location: ../../index.php');
+            }
             exit;
         }
         $errors = $result['errors'];

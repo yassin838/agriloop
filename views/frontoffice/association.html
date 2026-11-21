@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enregistrer une association | AgriLoop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="association.html"><span class="brand-mark" aria-hidden="true"></span>AgriLoop</a>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a href="#accueil">Accueil</a>
+        <a href="#offres">Offres</a>
+        <a href="don.html">Dons</a>
+        <a href="#parcelles">Parcelles</a>
+        <a href="#avis">Avis</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <h1>Enregistrer une association</h1>
+      <form class="form-grid" action="#" method="post">
+        <div class="field">
+          <label for="nom">Nom <span aria-hidden="true">*</span></label>
+          <input id="nom" name="nom" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="domaine">Domaine d'activité <span aria-hidden="true">*</span></label>
+          <select id="domaine" name="domaine" required>
+            <option value="" selected disabled>Choisir...</option>
+            <option value="agriculture">Agriculture</option>
+            <option value="alimentation">Alimentation solidaire</option>
+            <option value="environnement">Environnement</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="ville">Ville <span aria-hidden="true">*</span></label>
+          <select id="ville" name="ville" required>
+            <option value="" selected disabled>Choisir...</option>
+            <option value="tunis">Tunis</option>
+            <option value="sfax">Sfax</option>
+            <option value="sousse">Sousse</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="telephone">Téléphone <span aria-hidden="true">*</span></label>
+          <input id="telephone" name="telephone" type="tel" autocomplete="tel" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email <span aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" placeholder="exemple@mail.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="responsable">Responsable <span aria-hidden="true">*</span></label>
+          <input id="responsable" name="responsable" type="text" required>
+        </div>
+
+        <button type="submit">Envoyer</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

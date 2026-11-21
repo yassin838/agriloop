@@ -1,0 +1,163 @@
+AGRILOOP - INSTALLATION ET UTILISATION DU MODULE DONS / ASSOCIATIONS
+
+IMPORTANT
+Ce module est celui d'Amri Med Yassine. Il ne contient volontairement que
+les tables association, offre (minimum pour la jointure) et don.
+
+1. DEMARRER XAMPP
+
+Ouvrez le panneau XAMPP puis demarrez Apache et MySQL.
+Si les boutons ne demarrent pas correctement, ouvrez les fichiers suivants :
+- C:\xampp\apache_start.bat
+- C:\xampp\mysql_start.bat
+
+Le PHP CLI utilise pour ce projet est :
+C:\xampp\php\php.exe
+
+2. CREER LA BASE ET LES TABLES
+
+Ouvrez PowerShell dans C:\xampp\htdocs\agriloop puis executez :
+
+C:\xampp\php\php.exe database\install.php
+
+Le script installe la base "agriloop", les tables "association", "offre"
+et "don", puis ajoute des associations et offres de demonstration.
+
+La configuration de connexion se trouve dans :
+config\Database.php
+
+Valeurs locales par defaut :
+- serveur : 127.0.0.1
+- utilisateur : root
+- mot de passe : vide
+- base : agriloop
+
+Si votre MySQL utilise un mot de passe ou un port different, modifiez
+uniquement config\Database.php et database\install.php.
+
+3. ACCES AUX PAGES
+
+Accueil :
+http://localhost/agriloop/
+
+Association :
+http://localhost/agriloop/views/frontoffice/association.php
+
+Don :
+http://localhost/agriloop/views/frontoffice/don.php
+
+Back-office des dons :
+http://localhost/agriloop/views/backoffice/dons.php
+
+4. TESTER LE CRUD
+
+Associations :
+- creer une association dans le formulaire ;
+- retourner dans le tableau pour modifier ou supprimer ;
+- verifier les messages de succes ;
+- essayer un email deja utilise pour tester la validation ;
+- essayer de supprimer une association ayant des dons : l'action doit etre
+  refusee pour proteger la jointure.
+
+Dons :
+- creer un don avec une association et une offre ;
+- modifier un don ;
+- supprimer un don ;
+- ouvrir le back-office ;
+- confirmer ou annuler un don ;
+- utiliser le filtre par statut.
+
+Les controles de saisie sont verifies a deux niveaux :
+- navigateur : required, type email, nombre, date, telephone ;
+- serveur : valeurs obligatoires, formats, quantites positives, dates,
+  identifiants, email unique, statut autorise.
+
+5. VERIFIER LES TABLES AVEC phpMyAdmin
+
+Ouvrez :
+http://localhost/phpmyadmin
+
+Dans le menu de gauche :
+1. Cliquez sur "agriloop".
+2. Cliquez sur "association", "offre" ou "don".
+3. Cliquez sur "Afficher" pour voir les lignes.
+
+Jointure visible a executer dans l'onglet SQL :
+
+SELECT d.id,
+       d.quantite,
+       d.date_retrait,
+       d.statut,
+       a.nom AS association,
+       a.responsable
+FROM don d
+INNER JOIN association a ON a.id = d.id_association
+ORDER BY d.id DESC;
+
+Verifier la structure et les cles :
+
+SHOW TABLES;
+DESCRIBE association;
+DESCRIBE don;
+
+Voir les cles étrangères :
+
+SHOW CREATE TABLE don;
+
+6. VERIFIER AVEC PHPMyAdmin APRES UNE SAISIE
+
+Exemple de verification :
+- créez une association "Association Test" ;
+- créez un don lie a cette association ;
+- ouvrez la table association et cherchez "Association Test" ;
+- ouvrez la table don et vérifiez id_association ;
+- executez la jointure SQL ci-dessus ;
+- l'association et l'offre doivent apparaitre sur une meme ligne.
+
+7. STRUCTURE DU MODULE
+
+config\Database.php
+- connexion PDO unique a MySQL.
+
+model\Association.php
+- CRUD Association.
+
+model\Don.php
+- CRUD Don.
+- jointure avec Association et Offre.
+- statistiques.
+
+controller\AssociationController.php
+- validation des associations.
+- CSRF gere dans les pages.
+
+controller\DonController.php
+- validation des dons.
+- changement de statut.
+
+views\frontoffice\association.php
+- CRUD des associations cote interface.
+
+views\frontoffice\don.php
+- CRUD des dons cote interface.
+
+views\backoffice\dons.php
+- statistiques, filtres, confirmation, annulation et suppression.
+
+database\agriloop.sql
+- creation des tables et donnees de demonstration.
+
+database\install.php
+- installation automatique en ligne de commande.
+
+THEME FRESHCART
+
+Le theme FreshCart v1.0.0 est integre depuis :
+views\assets\freshcart-v1.0.0
+
+La surcouche d'adaptation AgriLoop se trouve dans :
+views\frontoffice\freshcart-template.css
+
+Elle personalise les couleurs, cartes, formulaires, tableaux, navigation
+et sidebar. Les fichiers PHP, PDO, les formulaires et le CRUD restent
+inchangés.

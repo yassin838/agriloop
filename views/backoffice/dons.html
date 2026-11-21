@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestion des dons | AgriLoop</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root { --green: #205a35; --dark: #173c27; --gold: #f0bc43; --paper: #fffdf9; --page: #f5f6f2; --line: #e4e6df; --muted: #78847b; }
+    body { margin: 0; color: #293b30; background: var(--page); font-family: "Trebuchet MS", Verdana, sans-serif; }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar { display: flex; flex: 0 0 235px; flex-direction: column; padding: 28px 16px 22px; color: #eaf3ea; background: var(--dark); }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 0 12px 42px; color: #fff; font-size: 1.15rem; font-weight: 700; text-decoration: none; }
+    .brand-mark { width: 11px; height: 11px; background: var(--gold); border-radius: 50%; }
+    .brand small { display: block; margin-top: 4px; color: #9bb2a0; font-size: .65rem; font-weight: 400; }
+    .nav-title { margin: 0 12px 10px; color: #79947e; font-size: .67rem; letter-spacing: .12em; text-transform: uppercase; }
+    .nav-title-spaced { margin-top: 30px; }
+    .nav-link { display: flex; align-items: center; margin: 4px 0; padding: 12px; color: #bed0c2; border-radius: 5px; font-size: .86rem; text-decoration: none; }
+    .nav-link:hover, .nav-link.active { color: #fff; background: #2a5c3a; }
+    .nav-link.active { box-shadow: inset 3px 0 var(--gold); }
+    .badge { margin-left: auto; padding: 2px 7px; color: #e8bc5c; background: #315942; border-radius: 10px; font-size: .67rem; }
+    .sidebar-bottom { margin-top: auto; padding: 18px 10px 0; border-top: 1px solid #31543c; color: #91aa96; font-size: .72rem; }
+    .sidebar-bottom strong { display: block; margin-bottom: 5px; color: #fff; font-size: .78rem; }
+    .sidebar-bottom a { display: block; margin-top: 16px; color: #91aa96; font-size: .7rem; text-decoration: none; }
+    .sidebar-bottom a:hover { color: #fff; }
+    .main { flex: 1; min-width: 0; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; min-height: 102px; padding: 24px 6%; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .eyebrow { margin: 0 0 7px; color: #89938b; font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 0; color: var(--green); font-size: 1.5rem; font-weight: 400; }
+    .site-link { color: var(--green); font-size: .78rem; font-weight: 700; text-decoration: none; }
+    .content { width: min(88%, 1180px); margin: 0 auto; padding: 38px 0 60px; }
+    .heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 23px; }
+    h2 { margin-bottom: 6px; color: var(--green); font-size: 1.1rem; font-weight: 400; }
+    .subtitle { margin-bottom: 0; color: var(--muted); font-size: .76rem; }
+    .button { padding: 11px 17px; color: var(--dark); font: inherit; font-size: .76rem; font-weight: 700; background: var(--gold); border: 0; border-radius: 5px; cursor: pointer; }
+    .button:hover { background: #e4ab35; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+    .stat { padding: 19px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+    .stat p { margin-bottom: 8px; color: var(--muted); font-size: .72rem; }
+    .stat strong { display: block; margin-bottom: 8px; color: var(--green); font-size: 1.55rem; font-weight: 400; }
+    .stat small { color: #398658; font-size: .66rem; font-weight: 700; }
+    .stat small.waiting { color: #a37320; }
+    .panel { padding: 22px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    select { padding: 8px 10px; color: #657269; font: inherit; font-size: .7rem; background: #fff; border: 1px solid var(--line); border-radius: 4px; }
+    .table-wrap { overflow-x: auto; margin-top: 20px; }
+    table { width: 100%; min-width: 720px; border-collapse: collapse; text-align: left; }
+    th { padding: 0 12px 11px; color: #9aa39c; font-size: .65rem; font-weight: 400; text-transform: uppercase; }
+    td { padding: 13px 12px; color: #66736b; border-top: 1px solid #eef0eb; font-size: .73rem; white-space: nowrap; }
+    th:first-child, td:first-child { padding-left: 0; }
+    .person b, .person small { display: block; }
+    .person b { color: #354a3c; font-size: .75rem; }
+    .person small { margin-top: 3px; color: #9ba39c; font-size: .64rem; }
+    .avatar { display: inline-flex; align-items: center; justify-content: center; float: left; width: 31px; height: 31px; margin-right: 9px; color: #397148; background: #e1efdf; border-radius: 50%; font-size: .67rem; font-weight: 700; }
+    .avatar.gold { color: #a37320; background: #fff0cc; }
+    .avatar.blue { color: #4d8194; background: #e4eff2; }
+    .status { display: inline-block; padding: 5px 8px; border-radius: 4px; font-size: .63rem; font-weight: 700; }
+    .pending { color: #a37320; background: #fff2d5; }
+    .confirmed { color: #36734a; background: #e3f2e5; }
+    .cancelled { color: #a3584c; background: #f8e6e2; }
+    .actions { color: #8b948d; background: none; border: 0; cursor: pointer; letter-spacing: 2px; }
+    @media (max-width: 850px) { .sidebar { flex-basis: 190px; }.stats { grid-template-columns: repeat(2, 1fr); }.content { width: 90%; } }
+    @media (max-width: 600px) { .layout { display: block; }.sidebar { min-height: auto; padding: 18px; }.brand { padding-bottom: 20px; }.nav-link { display: inline-block; margin-right: 4px; padding: 9px; }.sidebar-bottom { display: none; }.topbar { padding: 20px 5%; }.site-link { display: none; }.content { width: 90%; padding-top: 27px; }.heading { align-items: flex-start; }.heading .button { white-space: nowrap; }.stats { gap: 10px; }.stat { padding: 14px; }.stat strong { font-size: 1.3rem; }.panel { padding: 16px 13px; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="dons.html"><span class="brand-mark" aria-hidden="true"></span><span>AgriLoop<small>Administration</small></span></a>
+      <nav aria-label="Navigation du back-office">
+        <p class="nav-title">Vue générale</p>
+        <a class="nav-link" href="#tableau-de-bord">⌂ &nbsp; Tableau de bord</a>
+        <p class="nav-title nav-title-spaced">Gestion</p>
+        <a class="nav-link" href="#associations">♧ &nbsp; Associations <span class="badge">12</span></a>
+        <a class="nav-link" href="#offres">▣ &nbsp; Offres</a>
+        <a class="nav-link active" href="#dons" aria-current="page">♡ &nbsp; Dons <span class="badge">5</span></a>
+        <a class="nav-link" href="#parcelles">▦ &nbsp; Parcelles</a>
+        <p class="nav-title nav-title-spaced">Administration</p>
+        <a class="nav-link" href="#utilisateurs">♙ &nbsp; Utilisateurs</a>
+        <a class="nav-link" href="#parametres">⚙ &nbsp; Paramètres</a>
+      </nav>
+      <div class="sidebar-bottom"><strong>Admin AgriLoop</strong><span>Administrateur</span><a href="#deconnexion">Se déconnecter</a></div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow">Espace de gestion</p><h1>Gestion des dons</h1></div>
+        <a class="site-link" href="../frontoffice/template.html">Retour au site ↗</a>
+      </header>
+      <section class="content" id="dons">
+        <div class="heading">
+          <div><p class="eyebrow">Suivi des échanges</p><h2>Dons proposés</h2><p class="subtitle">Consultez et suivez les dons enregistrés sur AgriLoop.</p></div>
+          <button class="button" type="button">+ Enregistrer un don</button>
+        </div>
+        <div class="stats">
+          <article class="stat"><p>Total des dons</p><strong>892</strong><small>↑ 15,8 % ce mois</small></article>
+          <article class="stat"><p>En attente</p><strong>5</strong><small class="waiting">À confirmer</small></article>
+          <article class="stat"><p>Dons confirmés</p><strong>824</strong><small>92,4 % du total</small></article>
+          <article class="stat"><p>Quantité distribuée</p><strong>3,8 t</strong><small>↑ 9,4 % ce mois</small></article>
+        </div>
+        <section class="panel" aria-labelledby="history-title">
+          <div class="panel-head"><div><h2 id="history-title">Historique des dons</h2><p class="subtitle">Les dernières opérations enregistrées</p></div><select aria-label="Filtrer les dons"><option>Tous les statuts</option><option>En attente</option><option>Confirmés</option><option>Annulés</option></select></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Donateur</th><th>Association</th><th>Offre</th><th>Date de retrait</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><span class="avatar gold">JV</span><span class="person"><b>Jean Valette</b><small>Agriculteur</small></span></td><td>Terre &amp; Tous</td><td>Paniers de légumes</td><td>18 nov. 2026</td><td><span class="status pending">À confirmer</span></td><td><button class="actions" type="button" aria-label="Actions pour Jean Valette">•••</button></td></tr>
+                <tr><td><span class="avatar">MK</span><span class="person"><b>Mohamed Khelifi</b><small>Agriculteur</small></span></td><td>Les jardins du Sud</td><td>Matériel agricole</td><td>17 nov. 2026</td><td><span class="status confirmed">Confirmé</span></td><td><button class="actions" type="button" aria-label="Actions pour Mohamed Khelifi">•••</button></td></tr>
+                <tr><td><span class="avatar blue">SB</span><span class="person"><b>Sarah Ben Ali</b><small>Productrice</small></span></td><td>Terre Solidaire</td><td>Fruits et légumes</td><td>16 nov. 2026</td><td><span class="status confirmed">Confirmé</span></td><td><button class="actions" type="button" aria-label="Actions pour Sarah Ben Ali">•••</button></td></tr>
+                <tr><td><span class="avatar">AM</span><span class="person"><b>Ahmed Mansour</b><small>Agriculteur</small></span></td><td>Agir pour la campagne</td><td>Semences</td><td>15 nov. 2026</td><td><span class="status cancelled">Annulé</span></td><td><button class="actions" type="button" aria-label="Actions pour Ahmed Mansour">•••</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
