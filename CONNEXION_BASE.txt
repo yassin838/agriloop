@@ -1,0 +1,24 @@
+AGRILOOP - SOCLE COMMUN
+
+Demarrer Apache et MySQL dans XAMPP.
+
+Installer la base :
+
+cd C:\xampp\htdocs\agriloop
+C:\xampp\php\php.exe database\reset.php
+
+main cree uniquement la table utilisateur.
+Association et Don appartiennent a la branche
+med-yassine-amri-dons-associations.
+
+PDO :
+host=127.0.0.1
+port=3306
+base=agriloop
+utilisateur=root
+mot de passe=
+
+Comptes communs :
+acheteur@agriloop.tn / Acheteur123!
+agriculteur@agriloop.tn / Farmer123!
+admin.agriloop@agriloop.tn / AgriloopAdmin2026!
