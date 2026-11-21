@@ -1,7 +1,0 @@
-.DS_Store
-Thumbs.db
-.vscode/
-*.log
-node_modules/
-views/assets/freshcart-v1.0.0/node_modules/
-vendor/
