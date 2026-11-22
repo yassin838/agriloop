@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgriLoop — Avis de la communauté</title>
+  <link rel="stylesheet" href="avis.css">
+  <script src="avis.js" defer></script>
+</head>
+<body>
+  <header>
+    <a class="logo" href="avis.html">AgriLoop</a>
+    <nav aria-label="Navigation principale">
+      <a href="avis.html" class="active">Avis</a>
+      <a href="signalement.html">Signalement</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <p class="eyebrow">La communauté AgriLoop</p>
+      <h1>Partagez vos avis</h1>
+      <p>Découvrez les expériences des autres et partagez la vôtre.</p>
+    </section>
+
+    <section class="composer-card" aria-labelledby="composer-title">
+      <div class="composer-heading">
+        <div class="avatar avatar-composer" aria-hidden="true">A</div>
+        <div>
+          <h2 id="composer-title">Créer une publication</h2>
+          <p>Votre avis aide la communauté à choisir des produits locaux.</p>
+        </div>
+      </div>
+      <form id="formAvis" method="post" action="../backoffice/avis.php">
+        <input type="hidden" name="action" value="ajouter">
+        <div class="form-grid">
+          <div class="champ">
+            <label for="offre">Offre *</label>
+            <select id="offre" name="offre" required>
+              <option value="" disabled selected>Choisir une offre...</option>
+              <option value="1">Tomates bio</option>
+              <option value="2">Pommes de terre</option>
+              <option value="3">Oranges</option>
+            </select>
+          </div>
+          <div class="champ">
+            <label for="titre">Titre *</label>
+            <input type="text" id="titre" name="titre" maxlength="150" placeholder="Résumez votre expérience" required>
+          </div>
+          <div class="champ">
+            <label for="note">Note générale *</label>
+            <input type="number" id="note" name="note" min="1" max="5" required>
+          </div>
+          <div class="champ">
+            <label for="fraicheur">Fraîcheur du produit *</label>
+            <input type="number" id="fraicheur" name="fraicheur" min="0" max="5" required>
+          </div>
+          <div class="champ pleine-largeur">
+            <label for="commentaire">Votre commentaire *</label>
+            <textarea id="commentaire" name="commentaire" maxlength="3000" placeholder="Qu’avez-vous pensé du produit ?" required></textarea>
+          </div>
+        </div>
+        <div class="composer-footer">
+          <span>Restez respectueux et précis.</span>
+          <button type="submit">Publier l’avis</button>
+        </div>
+        <p class="message" id="merci" role="status">Merci, votre avis a bien été envoyé.</p>
+      </form>
+    </section>
+
+    <section class="feed" aria-labelledby="feed-title">
+      <div class="feed-heading">
+        <div>
+          <p class="eyebrow">Le fil AgriLoop</p>
+          <h2 id="feed-title">Avis de la communauté</h2>
+        </div>
+        <span class="feed-count">Publications récentes</span>
+      </div>
+
+      <p class="storage-message" id="storageMessage" role="status" aria-live="polite"></p>
+
+      <article class="post-card" data-post-id="1" data-base-score="12">
+        <aside class="vote-rail" aria-label="Votes">
+          <button class="vote-button" type="button" data-vote="1" aria-label="Voter pour cet avis" aria-pressed="false">▲</button>
+          <output class="vote-score" aria-label="Score">12</output>
+          <button class="vote-button" type="button" data-vote="-1" aria-label="Voter contre cet avis" aria-pressed="false">▼</button>
+        </aside>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="avatar" aria-hidden="true">S</span>
+            <span><strong>Sami Ben Ali</strong><span class="post-submeta"> · Tomates bio · 20 nov. 2026</span></span>
+          </div>
+          <h3>Produit très frais</h3>
+          <div class="rating" aria-label="Note 5 sur 5">
+            <span>Note <strong>5/5</strong></span><span>Fraîcheur <strong>5/5</strong></span>
+          </div>
+          <p class="post-text">Les tomates étaient vraiment fraîches et bien emballées. Je recommande !</p>
+          <div class="post-actions">
+            <button class="post-action comment-toggle" type="button" aria-expanded="false">
+              <span aria-hidden="true">▤</span><span class="comment-count">1 commentaire</span>
+            </button>
+            <a class="post-action report-action" href="signalement.html?avis=1">
+              <span aria-hidden="true">⚑</span> Signaler
+            </a>
+          </div>
+          <section class="comments-panel" hidden aria-label="Commentaires">
+            <ul class="comment-list">
+              <li class="comment" data-author="Maya">
+                <span class="comment-avatar" aria-hidden="true">M</span>
+                <p><strong>Maya</strong><span>La livraison a aussi été rapide.</span></p>
+              </li>
+            </ul>
+            <form class="comment-form">
+              <label class="sr-only" for="commentaire-1">Ajouter un commentaire</label>
+              <input id="commentaire-1" name="commentaire" maxlength="500" placeholder="Écrire un commentaire..." required>
+              <button type="submit">Commenter</button>
+            </form>
+          </section>
+        </div>
+      </article>
+
+      <article class="post-card" data-post-id="2" data-base-score="5">
+        <aside class="vote-rail" aria-label="Votes">
+          <button class="vote-button" type="button" data-vote="1" aria-label="Voter pour cet avis" aria-pressed="false">▲</button>
+          <output class="vote-score" aria-label="Score">5</output>
+          <button class="vote-button" type="button" data-vote="-1" aria-label="Voter contre cet avis" aria-pressed="false">▼</button>
+        </aside>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="avatar avatar-gold" aria-hidden="true">M</span>
+            <span><strong>Maya Trabelsi</strong><span class="post-submeta"> · Pommes de terre · 21 nov. 2026</span></span>
+          </div>
+          <h3>Livraison correcte</h3>
+          <div class="rating">
+            <span>Note <strong>4/5</strong></span><span>Fraîcheur <strong>4/5</strong></span>
+          </div>
+          <p class="post-text">Des pommes de terre de bonne qualité, livrées à temps. Je commanderai de nouveau.</p>
+          <div class="post-actions">
+            <button class="post-action comment-toggle" type="button" aria-expanded="false">
+              <span aria-hidden="true">▤</span><span class="comment-count">0 commentaire</span>
+            </button>
+            <a class="post-action report-action" href="signalement.html?avis=2">
+              <span aria-hidden="true">⚑</span> Signaler
+            </a>
+          </div>
+          <section class="comments-panel" hidden aria-label="Commentaires">
+            <ul class="comment-list"></ul>
+            <form class="comment-form">
+              <label class="sr-only" for="commentaire-2">Ajouter un commentaire</label>
+              <input id="commentaire-2" name="commentaire" maxlength="500" placeholder="Écrire un commentaire..." required>
+              <button type="submit">Commenter</button>
+            </form>
+          </section>
+        </div>
+      </article>
+
+      <article class="post-card" data-post-id="3" data-base-score="-2">
+        <aside class="vote-rail" aria-label="Votes">
+          <button class="vote-button" type="button" data-vote="1" aria-label="Voter pour cet avis" aria-pressed="false">▲</button>
+          <output class="vote-score" aria-label="Score">-2</output>
+          <button class="vote-button" type="button" data-vote="-1" aria-label="Voter contre cet avis" aria-pressed="false">▼</button>
+        </aside>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="avatar avatar-light" aria-hidden="true">K</span>
+            <span><strong>Karim Jlassi</strong><span class="post-submeta"> · Oranges · 21 nov. 2026</span></span>
+          </div>
+          <h3>Mon avis sur les oranges</h3>
+          <div class="rating">
+            <span>Note <strong>1/5</strong></span><span>Fraîcheur <strong>0/5</strong></span>
+          </div>
+          <p class="post-text">Je n’ai pas été satisfait de la qualité reçue.</p>
+          <div class="post-actions">
+            <button class="post-action comment-toggle" type="button" aria-expanded="false">
+              <span aria-hidden="true">▤</span><span class="comment-count">0 commentaire</span>
+            </button>
+            <a class="post-action report-action" href="signalement.html?avis=3">
+              <span aria-hidden="true">⚑</span> Signaler
+            </a>
+          </div>
+          <section class="comments-panel" hidden aria-label="Commentaires">
+            <ul class="comment-list"></ul>
+            <form class="comment-form">
+              <label class="sr-only" for="commentaire-3">Ajouter un commentaire</label>
+              <input id="commentaire-3" name="commentaire" maxlength="500" placeholder="Écrire un commentaire..." required>
+              <button type="submit">Commenter</button>
+            </form>
+          </section>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgriLoop — Signaler un avis</title>
+  <link rel="stylesheet" href="avis.css">
+  <link rel="stylesheet" href="signalement.css">
+  <script src="signalement.js" defer></script>
+</head>
+<body>
+  <header>
+    <a class="logo" href="avis.html">AgriLoop</a>
+    <nav aria-label="Navigation principale">
+      <a href="avis.html">Avis</a>
+      <a href="signalement.html" class="active">Signalement</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <p class="eyebrow">Aider à garder une communauté fiable</p>
+      <h1>Signaler une publication</h1>
+      <p>Indiquez pourquoi cet avis doit être vérifié par notre équipe.</p>
+    </section>
+
+    <section class="report-card">
+      <div class="report-post-heading">
+        <span class="report-flag" aria-hidden="true">⚑</span>
+        <div>
+          <h2>Publication concernée</h2>
+          <p>Vérifiez que vous avez sélectionné le bon avis.</p>
+        </div>
+      </div>
+      <div class="report-preview" aria-live="polite">
+        <strong id="avisTitle">Choisissez une publication à signaler</strong>
+        <span id="avisDetails">Le titre de l’avis apparaîtra ici.</span>
+      </div>
+
+      <form id="formSignalement" method="post" action="../backoffice/signalement.php">
+        <input type="hidden" name="action" value="ajouter">
+        <div class="champ">
+          <label for="avis">Avis concerné *</label>
+          <select id="avis" name="avis" required>
+            <option value="" disabled selected>Choisir une publication...</option>
+            <option value="1" data-details="Sami Ben Ali · Tomates bio">Produit très frais</option>
+            <option value="2" data-details="Maya Trabelsi · Pommes de terre">Livraison correcte</option>
+            <option value="3" data-details="Karim Jlassi · Oranges">Mon avis sur les oranges</option>
+          </select>
+        </div>
+        <div class="champ">
+          <label for="motif">Motif du signalement *</label>
+          <select id="motif" name="motif" required>
+            <option value="" disabled selected>Choisir un motif...</option>
+            <option value="spam">Spam ou publicité</option>
+            <option value="injurieux">Propos injurieux</option>
+            <option value="faux">Faux avis</option>
+            <option value="autre">Autre motif</option>
+          </select>
+        </div>
+        <div class="champ pleine-largeur">
+          <label for="description">Expliquez le problème *</label>
+          <textarea id="description" name="description" maxlength="3000" placeholder="Ajoutez des détails pour aider notre équipe à vérifier cet avis." required></textarea>
+        </div>
+        <div class="report-footer">
+          <p>Votre signalement sera examiné par l’équipe AgriLoop.</p>
+          <button type="submit">Envoyer le signalement</button>
+        </div>
+        <p class="message" id="merci" role="status">Merci, votre signalement a bien été envoyé.</p>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
